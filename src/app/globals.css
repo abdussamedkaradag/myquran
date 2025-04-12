@@ -1,0 +1,357 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .font-arabic {
+    font-family: 'Noto Naskh Arabic', serif;
+  }
+
+  .light-gray-border {
+    border-color: #e5e7eb;
+  }
+}
+
+@layer utilities {
+  .bg-pattern {
+    background-image: url('/path/to/your/pattern.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  background-image: url('/path/to/your/pattern.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.font-arabic {
+  font-family: 'Noto Naskh Arabic', serif;
+}
+
+.arabic-text {
+  font-size: 2.5rem;
+  line-height: 4rem;
+  text-align: right;
+}
+
+.translation-text {
+  font-size: 1.1rem;
+  line-height: 1.8rem;
+  color: #333;
+}
+
+.text-brown-800 {
+  color: #5a3e36;
+}
+
+.border-brown-300 {
+  border-color: #d3b8ae;
+}
+
+.focus\:ring-brown-500:focus {
+  --tw-ring-color: #8b5e3c;
+}
+
+.bg-brown-200 {
+  background-color: #e7d3c6;
+}
+
+.hover\:bg-brown-300:hover {
+  background-color: #d3b8ae;
+}
+
+.floating-label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1rem;
+  transition: all 0.2s ease-in-out;
+  background-color: transparent;
+  padding: 0 0.25rem;
+  color: #6B7280;
+  pointer-events: none;
+}
+
+input:focus ~ .floating-label,
+input:not(:placeholder-shown) ~ .floating-label {
+  top: -0.5rem;
+  transform: translateY(0);
+  font-size: 0.875rem;
+  color: #92400E;
+  background-color: white;
+}
+
+.nav-button {
+  min-width: 200px !important;
+  padding: 24px 48px !important;
+  font-size: 24px !important;
+  font-weight: 500 !important;
+  background-color: rgb(231, 229, 228) !important;
+  color: rgb(68, 64, 60) !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.nav-button:hover {
+  background-color: rgb(214, 211, 209) !important;
+  transform: scale(1.05) !important;
+}
+
+.nav-container {
+  display: flex !important;
+  gap: 64px !important;
+  justify-content: center !important;
+  align-items: center !important;
+  position: relative !important;
+}
+
+/* Mobil için responsive tasarım */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column !important;
+    gap: 24px !important;
+  }
+
+  .nav-button {
+    min-width: 160px !important;
+    padding: 16px 32px !important;
+    font-size: 20px !important;
+  }
+}
+
+/* Daha küçük ekranlar için */
+@media (max-width: 480px) {
+  .nav-button {
+    min-width: 140px !important;
+    padding: 14px 28px !important;
+    font-size: 18px !important;
+  }
+}
+
+.custom-search-container {
+  width: 100%;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.custom-search-container input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #8B4513;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  padding-right: 3rem;
+}
+
+.custom-search-container input:focus {
+  border-color: #A0522D;
+  box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
+}
+
+.custom-search-container label {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  padding: 0 0.5rem;
+  color: #8B4513;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.custom-search-container input:focus + label,
+.custom-search-container input:not(:placeholder-shown) + label {
+  top: 0;
+  transform: translateY(-50%) scale(0.8);
+  color: #A0522D;
+}
+
+.custom-search-button {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #8B4513;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: none;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.custom-search-button:hover {
+  color: #A0522D;
+}
+
+/* Mobil için responsive tasarım */
+@media (max-width: 768px) {
+  .custom-search-container {
+    max-width: 320px !important;
+    margin-bottom: 32px !important;
+  }
+
+  .custom-search-input {
+    padding: 12px 16px !important;
+    padding-right: 3rem !important;
+    font-size: 14px !important;
+  }
+
+  .custom-search-button {
+    display: block;
+  }
+}
+
+/* Daha küçük ekranlar için */
+@media (max-width: 480px) {
+  .custom-search-container {
+    max-width: 280px !important;
+    margin-bottom: 24px !important;
+  }
+}
+
+/* Toast bildirimi için özel stiller */
+.toast-error {
+  background-color: #fff !important;
+  color: #8B4513 !important;
+  border: 2px solid #8B4513 !important;
+  border-radius: 0.5rem !important;
+  padding: 1rem !important;
+  font-size: 1rem !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+
+.toast-error svg {
+  color: #8B4513 !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}
+
+.custom-button {
+  background-color: #8B4513;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border: 2px solid #8B4513;
+}
+
+.custom-button:hover,
+.custom-button:active {
+  background-color: #A0522D;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobil için responsive tasarım */
+@media (max-width: 768px) {
+  .custom-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.suggestions-container {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #8B4513;
+  border-top: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background-color: #F5F5F5;
+}
+
+.suggestion-item .surah-name {
+  color: #8B4513;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.suggestion-item .verse-count {
+  display: none;
+}
+
+/* Mobil için responsive tasarım */
+@media (max-width: 768px) {
+  .suggestions-container {
+    max-height: 150px;
+  }
+}
