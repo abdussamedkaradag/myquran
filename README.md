@@ -1,24 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MyQuran Projesi
 
-## Getting Started
+Modern ve kullanıcı dostu bir Kuran-ı Kerim arayüzü.
 
-First, run the development server:
+## Özellikler
+
+- Sure ve ayet arama
+- Türkçe meal okuma
+- Sureler listesi
+- Ayet kopyalama
+- Modern ve responsive tasarım
+
+## Teknolojiler
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- React
+
+## Geliştirme
+
+Projeyi yerel ortamınızda çalıştırmak için:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Tarayıcınızda `http://localhost:3000` adresini açın.
 
 ## Learn More
 
