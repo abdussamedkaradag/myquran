@@ -1,0 +1,18 @@
+{
+  "1": {
+    "1": "Bismillâhirrahmânirrahîm",
+    "2": "Elhamdulillâhi rabbil'âlemîn",
+    "3": "Errahmânir'rahîm",
+    "4": "Mâliki yevmiddîn",
+    "5": "İyyâke na'budu ve iyyâke neste'în",
+    "6": "İhdinessırâtel mustakîm",
+    "7": "Sırâtellezîne en'amte aleyhim ğayrilmağdûbi aleyhim ve leddâllîn"
+  },
+  "2": {
+    "1": "Elif lâm mîm",
+    "2": "Zâlikel kitâbu lâ raybe fîh, huden lil muttekîn",
+    "3": "Ellezîne yu'minûne bil ğaybi ve yukîmûnes salâte ve mimmâ razaknâhum yunfikûn",
+    "4": "Vellezîne yu'minûne bi mâ unzile ileyke ve mâ unzile min kablik ve bil âhırati hum yûkınûn",
+    "5": "Ulâike alâ huden min rabbihim ve ulâike humul muflihûn"
+  }
+} as { [key: string]: { [key: string]: string } }; 
