@@ -228,7 +228,7 @@ export default function VersePage() {
               <div className="mb-6">
                 <button
                   onClick={() => setShowWordMeanings(!showWordMeanings)}
-                  className="w-full px-6 py-3 bg-brown-100 text-brown-700 rounded-xl hover:bg-brown-200 transition-colors duration-200 flex items-center justify-between"
+                  className="w-full px-6 py-3 bg-brown-100 text-brown-700 rounded-xl hover:bg-brown-200 transition-colors duration-200 flex items-center justify-between font-turkish"
                 >
                   <span className="font-medium">Kelime Kelime Meal</span>
                   <svg 
@@ -245,7 +245,7 @@ export default function VersePage() {
                   <div className="mt-4 bg-brown-50 p-6 rounded-xl">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {verseData.kelime_meali.map((word, index) => (
-                        <div key={index} className="flex items-start gap-2">
+                        <div key={index} className="flex items-start gap-2 font-turkish">
                           <span className="font-medium text-brown-800">{word.kelime}:</span>
                           <span className="text-brown-700">{word.anlam}</span>
                         </div>
