@@ -18,6 +18,8 @@ export default function Home() {
   const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [verseSearchQuery, setVerseSearchQuery] = useState('');
+  const [nextVerse, setNextVerse] = useState<boolean>(false);
+  const [previousVerse, setPreviousVerse] = useState<boolean>(false);
 
   useEffect(() => {
     const input = document.getElementById("searchInput");
@@ -298,6 +300,18 @@ export default function Home() {
     }
   };
 
+  const handleNextVerse = () => {
+    // Sonraki ayet işlemi
+  };
+
+  const handlePreviousVerse = () => {
+    // Önceki ayet işlemi
+  };
+
+  const handleDetailClick = () => {
+    // Detay sayfasına yönlendirme
+  };
+
   return (
     <div className="min-h-screen bg-pattern bg-cover flex flex-col items-center justify-center p-8">
       <h1 className="text-4xl font-bold text-brown-800 mb-12">Kuran-ı Kerim</h1>
@@ -341,7 +355,6 @@ export default function Home() {
           )}
         </div>
 
-        {/* Navigasyon Butonları */}
         <div className="nav-container">
           <button 
             onClick={() => router.push('/juz')} 
@@ -357,6 +370,8 @@ export default function Home() {
           </button>
         </div>
       </div>
+
+      <div className="h-8"></div>
     </div>
   );
 }
