@@ -75,7 +75,90 @@ export default function JuzDetailPage() {
   const juzId = Number(params.id);
   const [loading, setLoading] = useState(true);
   const [verses, setVerses] = useState<Verse[]>([]);
+  const [scrollSpeed, setScrollSpeed] = useState<'none' | 'slow' | 'medium' | 'fast'>('none');
+  const [isScrolling, setIsScrolling] = useState(false);
   const juzInfo = JUZ_DATA.find(j => j.id === juzId);
+
+  // Kaydırma hızı ayarları
+  const scrollSettings = {
+    none: { interval: 0, pixels: 0 },
+    slow: { interval: 100, pixels: 1 },
+    medium: { interval: 50, pixels: 2 },
+    fast: { interval: 25, pixels: 3 }
+  };
+
+  // Sayfa yüklendiğinde otomatik kaydırma
+  useEffect(() => {
+    if (scrollSpeed === 'none' || !isScrolling) return;
+
+    const settings = scrollSettings[scrollSpeed];
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    // Mobil cihazlarda sürekli kaydırma yap
+    if (isMobile) {
+      const scrollInterval = setInterval(() => {
+        window.scrollBy({
+          top: settings.pixels,
+          behavior: 'smooth'
+        });
+      }, settings.interval);
+
+      return () => clearInterval(scrollInterval);
+    }
+
+    // Web için sürekli kaydırma
+    const scrollInterval = setInterval(() => {
+      window.scrollBy({
+        top: settings.pixels,
+        behavior: 'smooth'
+      });
+    }, settings.interval);
+
+    return () => clearInterval(scrollInterval);
+  }, [scrollSpeed, isScrolling]);
+
+  // Mobil cihazlar için özel etkileşim yönetimi
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (!isMobile) return;
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      // Eğer dokunulan element bir select elementi ise, kaydırmayı değiştirme
+      if (e.target instanceof HTMLSelectElement) {
+        return;
+      }
+      
+      // Sadece scrollSpeed 'none' değilse kaydırmayı değiştir
+      if (scrollSpeed !== 'none') {
+        setIsScrolling(prev => !prev);
+      }
+    };
+
+    document.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [scrollSpeed]);
+
+  // Web için etkileşim yönetimi
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) return;
+
+    const handleInteraction = (e: MouseEvent) => {
+      if (e.target instanceof HTMLSelectElement) {
+        return;
+      }
+      setIsScrolling(prev => !prev);
+    };
+
+    document.addEventListener('click', handleInteraction);
+
+    return () => {
+      document.removeEventListener('click', handleInteraction);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchJuzVerses = async () => {
@@ -150,6 +233,22 @@ export default function JuzDetailPage() {
                   <span className="font-semibold text-brown-700">Bitiş: </span>
                   {SURAH_NAMES[juzInfo.end.surah] || `Sure ${juzInfo.end.surah}`}, {juzInfo.end.verse}. Ayet
                 </p>
+              </div>
+              <div className="mt-4 flex items-center justify-center">
+                <select
+                  value={scrollSpeed}
+                  onChange={(e) => {
+                    const newSpeed = e.target.value as 'none' | 'slow' | 'medium' | 'fast';
+                    setScrollSpeed(newSpeed);
+                    setIsScrolling(newSpeed !== 'none');
+                  }}
+                  className="custom-scroll-select bg-white border border-brown-200 rounded-lg px-4 py-2 text-brown-700"
+                >
+                  <option value="none">Kaydırma Yok</option>
+                  <option value="slow">Yavaş</option>
+                  <option value="medium">Orta</option>
+                  <option value="fast">Hızlı</option>
+                </select>
               </div>
             </div>
 

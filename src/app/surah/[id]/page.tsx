@@ -22,6 +22,99 @@ export default function SurahDetailPage() {
   const [loading, setLoading] = useState(true);
   const [verses, setVerses] = useState<Verse[]>([]);
   const [surahInfo, setSurahInfo] = useState<any>(null);
+  const [scrollSpeed, setScrollSpeed] = useState<'none' | 'slow' | 'medium' | 'fast'>('none');
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [showTranslation, setShowTranslation] = useState(true);
+
+  // Kaydırma hızı ayarları
+  const scrollSettings = {
+    none: { interval: 0, pixels: 0 },
+    slow: { interval: 100, pixels: 1 },
+    medium: { interval: 50, pixels: 2 },
+    fast: { interval: 25, pixels: 3 }
+  };
+
+  // scrollSpeed değiştiğinde isScrolling state'ini güncelle
+  useEffect(() => {
+    if (scrollSpeed !== 'none') {
+      setIsScrolling(true);
+    } else {
+      setIsScrolling(false);
+    }
+  }, [scrollSpeed]);
+
+  // Sayfa yüklendiğinde otomatik kaydırma
+  useEffect(() => {
+    if (scrollSpeed === 'none' || !isScrolling) return;
+
+    const settings = scrollSettings[scrollSpeed];
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    // Mobil cihazlarda sürekli kaydırma yap
+    if (isMobile) {
+      const scrollInterval = setInterval(() => {
+        window.scrollBy({
+          top: settings.pixels,
+          behavior: 'smooth'
+        });
+      }, settings.interval);
+
+      return () => clearInterval(scrollInterval);
+    }
+
+    // Web için sürekli kaydırma
+    const scrollInterval = setInterval(() => {
+      window.scrollBy({
+        top: settings.pixels,
+        behavior: 'smooth'
+      });
+    }, settings.interval);
+
+    return () => clearInterval(scrollInterval);
+  }, [scrollSpeed, isScrolling]);
+
+  // Mobil cihazlar için özel etkileşim yönetimi
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (!isMobile) return;
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      // Eğer dokunulan element bir select elementi ise, kaydırmayı değiştirme
+      if (e.target instanceof HTMLSelectElement) {
+        return;
+      }
+      
+      // Sadece scrollSpeed 'none' değilse kaydırmayı değiştir
+      if (scrollSpeed !== 'none') {
+        setIsScrolling(prev => !prev);
+      }
+    };
+
+    document.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [scrollSpeed]);
+
+  // Web için etkileşim yönetimi
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) return;
+
+    const handleInteraction = (e: MouseEvent) => {
+      if (e.target instanceof HTMLSelectElement) {
+        return;
+      }
+      setIsScrolling(prev => !prev);
+    };
+
+    document.addEventListener('click', handleInteraction);
+
+    return () => {
+      document.removeEventListener('click', handleInteraction);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchSurah = async () => {
@@ -56,23 +149,51 @@ export default function SurahDetailPage() {
               </h1>
               <p className="text-xl font-arabic mb-2">{surahInfo?.name_ar}</p>
               <p className="text-gray-600">{surahInfo?.verse_count} Ayet</p>
+              <div className="mt-4 flex items-center justify-center gap-4">
+                <select
+                  value={scrollSpeed}
+                  onChange={(e) => {
+                    const newSpeed = e.target.value as 'none' | 'slow' | 'medium' | 'fast';
+                    setScrollSpeed(newSpeed);
+                    if (newSpeed !== 'none') {
+                      setIsScrolling(true);
+                    } else {
+                      setIsScrolling(false);
+                    }
+                  }}
+                  className="custom-scroll-select"
+                >
+                  <option value="none">Kaydırma Yok</option>
+                  <option value="slow">Yavaş</option>
+                  <option value="medium">Orta</option>
+                  <option value="fast">Hızlı</option>
+                </select>
+                <button
+                  onClick={() => setShowTranslation(!showTranslation)}
+                  className="custom-button"
+                >
+                  {showTranslation ? 'Meali Gizle' : 'Meali Göster'}
+                </button>
+              </div>
             </div>
 
             <div className="space-y-8">
               {verses.map((verse) => (
                 <div
                   key={verse.id}
-                  className="bg-white rounded-lg shadow-sm p-6 space-y-4"
+                  className="bg-white rounded-lg shadow-md p-6 space-y-4 max-w-2xl mx-auto"
                 >
-                  <div className="flex items-start gap-4">
-                    <span className="text-gray-500 text-sm">
-                      {verse.verse_number}
-                    </span>
-                    <div className="flex-1">
-                      <p className="arabic-text font-arabic mb-4">{verse.verse}</p>
-                      <p className="text-gray-600">{verse.translation.text}</p>
-                      <hr className="my-4 border-gray-100 border-2" />
+                  <div className="flex flex-col items-center gap-1">
+                    <div className="flex items-center gap-2">
+                      <span className="verse-number">
+                        {verse.verse_number}
+                      </span>
+                      <p className="arabic-text font-arabic mb-1 text-2xl text-center">{verse.verse}</p>
                     </div>
+                    {showTranslation && (
+                      <p className="meal-text text-gray-600 text-lg text-center mt-1">{verse.translation.text}</p>
+                    )}
+                    <hr className="verse-divider mt-2 mb-2" />
                   </div>
                 </div>
               ))}

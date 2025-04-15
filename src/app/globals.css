@@ -726,3 +726,191 @@ input:not(:placeholder-shown) ~ .floating-label {
   direction: ltr;
 }
 
+/* Tablo Stilleri */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+}
+
+th {
+  font-weight: 500;
+  color: rgb(68, 64, 60);
+  border-bottom: 1px solid rgb(231, 229, 228);
+}
+
+td {
+  color: rgb(68, 64, 60);
+  border-bottom: 1px solid rgb(231, 229, 228);
+}
+
+tr:hover {
+  background-color: rgb(250, 250, 249);
+}
+
+/* Mobil için responsive tasarım */
+@media (max-width: 768px) {
+  th, td {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Özel Dropdown Stilleri */
+.custom-scroll-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23686460'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.25rem;
+  padding: 0.75rem 2.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  color: #686460;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+  max-width: 200px;
+}
+
+.custom-scroll-select:hover {
+  background-color: rgb(250, 250, 249);
+  border-color: rgb(168, 162, 158);
+}
+
+.custom-scroll-select:focus {
+  outline: none;
+  border-color: rgb(120, 113, 108);
+  box-shadow: 0 0 0 2px rgba(120, 113, 108, 0.1);
+}
+
+/* Select elementinin açılır menüsü için özel stil */
+.custom-scroll-select::-ms-expand {
+  display: none;
+}
+
+/* Mobil cihazlar için özel stil */
+@media (max-width: 768px) {
+  .custom-scroll-select {
+    font-size: 1rem;
+    padding: 0.75rem 2.5rem;
+  }
+}
+
+/* Select elementinin açılır menüsü için özel stil */
+select.custom-scroll-select {
+  background-color: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 0.75rem 2.5rem;
+  font-size: 1rem;
+  color: #686460;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+  max-width: 200px;
+}
+
+select.custom-scroll-select option {
+  padding: 0.75rem 1rem;
+  background-color: white;
+  color: #686460;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-radius: 0.5rem;
+  margin: 0.25rem;
+}
+
+select.custom-scroll-select option:hover {
+  background-color: rgb(250, 250, 249);
+  color: #8b5e3c;
+}
+
+select.custom-scroll-select option:checked {
+  background-color: rgb(250, 250, 249);
+  color: #8b5e3c;
+  font-weight: 500;
+}
+
+/* Seçeneklere özel stiller */
+select.custom-scroll-select option[value="none"] {
+  color: #686460;
+  font-style: italic;
+}
+
+select.custom-scroll-select option[value="slow"] {
+  color: #4B5563;
+}
+
+select.custom-scroll-select option[value="medium"] {
+  color: #374151;
+}
+
+select.custom-scroll-select option[value="fast"] {
+  color: #1F2937;
+}
+
+/* Select elementinin açılır menüsü için özel stil */
+select.custom-scroll-select::-ms-expand {
+  display: none;
+}
+
+select.custom-scroll-select:focus {
+  outline: none;
+  border-color: rgb(120, 113, 108);
+  box-shadow: 0 0 0 2px rgba(120, 113, 108, 0.1);
+}
+
+/* Mobil cihazlar için özel stil */
+@media (max-width: 768px) {
+  select.custom-scroll-select {
+    font-size: 1rem;
+    padding: 0.75rem 2.5rem;
+  }
+  
+  select.custom-scroll-select option {
+    padding: 0.75rem 1rem;
+  }
+}
+
+.meal-text {
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .meal-text {
+    text-align: left;
+  }
+}
+
+.verse-number {
+  color: #ef4444;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .custom-button {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .custom-scroll-select {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+.verse-divider {
+  border-color: #f3e8e0;
+  border-width: 2px;
+  margin: 1rem 0;
+  width: 100%;
+}
+
