@@ -1,6 +1,48 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+interface Juz {
+  id: number;
+  name: string;
+  start_surah: number;
+  start_verse: number;
+  end_surah: number;
+  end_verse: number;
+}
+
+const JUZ_DATA: Juz[] = [
+  { id: 1, name: "1. Cüz", start_surah: 1, start_verse: 1, end_surah: 2, end_verse: 141 },
+  { id: 2, name: "2. Cüz", start_surah: 2, start_verse: 142, end_surah: 2, end_verse: 252 },
+  { id: 3, name: "3. Cüz", start_surah: 2, start_verse: 253, end_surah: 3, end_verse: 92 },
+  { id: 4, name: "4. Cüz", start_surah: 3, start_verse: 93, end_surah: 4, end_verse: 23 },
+  { id: 5, name: "5. Cüz", start_surah: 4, start_verse: 24, end_surah: 4, end_verse: 147 },
+  { id: 6, name: "6. Cüz", start_surah: 4, start_verse: 148, end_surah: 5, end_verse: 81 },
+  { id: 7, name: "7. Cüz", start_surah: 5, start_verse: 82, end_surah: 6, end_verse: 110 },
+  { id: 8, name: "8. Cüz", start_surah: 6, start_verse: 111, end_surah: 7, end_verse: 87 },
+  { id: 9, name: "9. Cüz", start_surah: 7, start_verse: 88, end_surah: 8, end_verse: 40 },
+  { id: 10, name: "10. Cüz", start_surah: 8, start_verse: 41, end_surah: 9, end_verse: 92 },
+  { id: 11, name: "11. Cüz", start_surah: 9, start_verse: 93, end_surah: 11, end_verse: 5 },
+  { id: 12, name: "12. Cüz", start_surah: 11, start_verse: 6, end_surah: 12, end_verse: 52 },
+  { id: 13, name: "13. Cüz", start_surah: 12, start_verse: 53, end_surah: 14, end_verse: 52 },
+  { id: 14, name: "14. Cüz", start_surah: 15, start_verse: 1, end_surah: 16, end_verse: 128 },
+  { id: 15, name: "15. Cüz", start_surah: 17, start_verse: 1, end_surah: 18, end_verse: 74 },
+  { id: 16, name: "16. Cüz", start_surah: 18, start_verse: 75, end_surah: 20, end_verse: 135 },
+  { id: 17, name: "17. Cüz", start_surah: 21, start_verse: 1, end_surah: 22, end_verse: 78 },
+  { id: 18, name: "18. Cüz", start_surah: 23, start_verse: 1, end_surah: 25, end_verse: 20 },
+  { id: 19, name: "19. Cüz", start_surah: 25, start_verse: 21, end_surah: 27, end_verse: 55 },
+  { id: 20, name: "20. Cüz", start_surah: 27, start_verse: 56, end_surah: 29, end_verse: 45 },
+  { id: 21, name: "21. Cüz", start_surah: 29, start_verse: 46, end_surah: 33, end_verse: 30 },
+  { id: 22, name: "22. Cüz", start_surah: 33, start_verse: 31, end_surah: 36, end_verse: 27 },
+  { id: 23, name: "23. Cüz", start_surah: 36, start_verse: 28, end_surah: 39, end_verse: 31 },
+  { id: 24, name: "24. Cüz", start_surah: 39, start_verse: 32, end_surah: 41, end_verse: 46 },
+  { id: 25, name: "25. Cüz", start_surah: 41, start_verse: 47, end_surah: 45, end_verse: 37 },
+  { id: 26, name: "26. Cüz", start_surah: 46, start_verse: 1, end_surah: 51, end_verse: 30 },
+  { id: 27, name: "27. Cüz", start_surah: 51, start_verse: 31, end_surah: 57, end_verse: 29 },
+  { id: 28, name: "28. Cüz", start_surah: 58, start_verse: 1, end_surah: 66, end_verse: 12 },
+  { id: 29, name: "29. Cüz", start_surah: 67, start_verse: 1, end_surah: 77, end_verse: 50 },
+  { id: 30, name: "30. Cüz", start_surah: 78, start_verse: 1, end_surah: 114, end_verse: 6 }
+];
 
 const SURAH_NAMES: { [key: number]: string } = {
   1: "Fatiha",
@@ -119,77 +161,63 @@ const SURAH_NAMES: { [key: number]: string } = {
   114: "Nas"
 };
 
-const JUZ_DATA = [
-  { id: 1, start_surah: 1, start_verse: 1, end_surah: 2, end_verse: 141 },
-  { id: 2, start_surah: 2, start_verse: 142, end_surah: 2, end_verse: 252 },
-  { id: 3, start_surah: 2, start_verse: 253, end_surah: 3, end_verse: 92 },
-  { id: 4, start_surah: 3, start_verse: 93, end_surah: 4, end_verse: 23 },
-  { id: 5, start_surah: 4, start_verse: 24, end_surah: 4, end_verse: 147 },
-  { id: 6, start_surah: 4, start_verse: 148, end_surah: 5, end_verse: 81 },
-  { id: 7, start_surah: 5, start_verse: 82, end_surah: 6, end_verse: 110 },
-  { id: 8, start_surah: 6, start_verse: 111, end_surah: 7, end_verse: 87 },
-  { id: 9, start_surah: 7, start_verse: 88, end_surah: 8, end_verse: 40 },
-  { id: 10, start_surah: 8, start_verse: 41, end_surah: 9, end_verse: 92 },
-  { id: 11, start_surah: 9, start_verse: 93, end_surah: 11, end_verse: 5 },
-  { id: 12, start_surah: 11, start_verse: 6, end_surah: 12, end_verse: 52 },
-  { id: 13, start_surah: 12, start_verse: 53, end_surah: 14, end_verse: 52 },
-  { id: 14, start_surah: 15, start_verse: 1, end_surah: 16, end_verse: 128 },
-  { id: 15, start_surah: 17, start_verse: 1, end_surah: 18, end_verse: 74 },
-  { id: 16, start_surah: 18, start_verse: 75, end_surah: 20, end_verse: 135 },
-  { id: 17, start_surah: 21, start_verse: 1, end_surah: 22, end_verse: 78 },
-  { id: 18, start_surah: 23, start_verse: 1, end_surah: 25, end_verse: 20 },
-  { id: 19, start_surah: 25, start_verse: 21, end_surah: 27, end_verse: 55 },
-  { id: 20, start_surah: 27, start_verse: 56, end_surah: 29, end_verse: 45 },
-  { id: 21, start_surah: 29, start_verse: 46, end_surah: 33, end_verse: 30 },
-  { id: 22, start_surah: 33, start_verse: 31, end_surah: 36, end_verse: 27 },
-  { id: 23, start_surah: 36, start_verse: 28, end_surah: 39, end_verse: 31 },
-  { id: 24, start_surah: 39, start_verse: 32, end_surah: 41, end_verse: 46 },
-  { id: 25, start_surah: 41, start_verse: 47, end_surah: 45, end_verse: 37 },
-  { id: 26, start_surah: 46, start_verse: 1, end_surah: 51, end_verse: 30 },
-  { id: 27, start_surah: 51, start_verse: 31, end_surah: 57, end_verse: 29 },
-  { id: 28, start_surah: 58, start_verse: 1, end_surah: 66, end_verse: 12 },
-  { id: 29, start_surah: 67, start_verse: 1, end_surah: 77, end_verse: 50 },
-  { id: 30, start_surah: 78, start_verse: 1, end_surah: 114, end_verse: 6 }
-];
-
 export default function JuzPage() {
-  const router = useRouter();
-
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Cüzler</h1>
-          <button
-            onClick={() => router.push('/')}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center gap-2"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-end mb-4">
+          <Link href="/" className="home-button" style={{ textDecoration: 'none' }}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Ana Sayfa
-          </button>
+            Anasayfa
+          </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {JUZ_DATA.map((juz) => (
-            <button
-              key={juz.id}
-              onClick={() => router.push(`/juz/${juz.id}`)}
-              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 hover:bg-green-50 border border-gray-100"
-            >
-              <div className="text-center mb-4">
-                <h2 className="text-2xl font-bold text-green-700">Cüz {juz.id}</h2>
-              </div>
-              <div className="space-y-2 text-left">
-                <p className="text-gray-600">
-                  <span className="font-medium">Başlangıç:</span> {SURAH_NAMES[juz.start_surah]} Suresi, {juz.start_verse}. Ayet
-                </p>
-                <p className="text-gray-600">
-                  <span className="font-medium">Bitiş:</span> {SURAH_NAMES[juz.end_surah]} Suresi, {juz.end_verse}. Ayet
-                </p>
-              </div>
-            </button>
-          ))}
+        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Kuran-ı Kerim Cüzleri</h1>
+        
+        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Bitiş
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Başlangıç
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Cüz No
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {JUZ_DATA.map((juz) => (
+                <tr key={juz.id}>
+                  <td className="px-6 py-4">
+                    <Link href={`/juz/${juz.id}`} className="juz-table-link">
+                      <div className="juz-table-content">
+                        <div className="juz-table-surah">{SURAH_NAMES[juz.end_surah]}</div>
+                        <div className="juz-table-verse">{juz.end_verse}. Ayet</div>
+                      </div>
+                    </Link>
+                  </td>
+                  <td className="px-6 py-4">
+                    <Link href={`/juz/${juz.id}`} className="juz-table-link">
+                      <div className="juz-table-content">
+                        <div className="juz-table-surah">{SURAH_NAMES[juz.start_surah]}</div>
+                        <div className="juz-table-verse">{juz.start_verse}. Ayet</div>
+                      </div>
+                    </Link>
+                  </td>
+                  <td className="px-6 py-4">
+                    <Link href={`/juz/${juz.id}`} className="juz-table-link">
+                      <div className="juz-table-number">{juz.name}</div>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
