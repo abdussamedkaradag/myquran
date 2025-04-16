@@ -181,7 +181,7 @@ export default function VerseDetailPage() {
             )}
 
             {diyanetMeal && (
-              <div className="detail-meal-text text-xl text-brown-700 leading-relaxed flex items-center justify-center gap-4 font-turkish bg-brown-50 p-6 rounded-xl mb-6">
+              <div className="detail-meal-text">
                 {diyanetMeal}
                 <button 
                   onClick={() => {
