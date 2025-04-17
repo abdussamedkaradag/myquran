@@ -313,30 +313,32 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-pattern bg-cover flex flex-col items-center justify-center p-8">
-      <h1 className="text-4xl font-bold text-brown-800 mb-12">Kuran-ı Kerim</h1>
-      
-      <div className="w-full max-w-[400px] mx-auto">
-        <div className="custom-search-container relative">
+    <div className="quran-app-container min-h-screen bg-pattern bg-cover flex items-center justify-center p-4">
+      <div className="quran-content-container bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg p-8 max-w-md w-full mx-auto">
+        <h1 className="text-4xl font-semibold text-center mb-8 text-brown-800">Kuran-ı Kerim</h1>
+        
+        <div className="custom-search-container relative mb-8">
           <input
             type="text"
-            id="verse-search"
-            className="custom-search-input"
-            placeholder=" "
+            id="searchInput"
             value={searchQuery}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+            className="w-full px-4 py-3 border-2 border-brown-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-transparent"
+            placeholder=" "
           />
-          <label htmlFor="verse-search" className="custom-search-label">
-            Arama yapınız. (Örn: Mülk 2)
-          </label>
-          <button 
-            className="custom-search-button material-symbols-outlined"
-            onClick={handleSearch}
-            type="button"
+          <label className="floating-label">Arama yapınız. (Örn: Mülk 2)</label>
+          <button
+            id="clearBtn"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden"
           >
-            search
+            <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                clipRule="evenodd"
+              />
+            </svg>
           </button>
           {showSuggestions && suggestions.length > 0 && (
             <div className="suggestions-container">
@@ -346,8 +348,9 @@ export default function Home() {
                   className="suggestion-item"
                   onClick={() => handleSuggestionClick(surah)}
                 >
-                  <span className="surah-name">
-                    {surah.text.split(' ')[0]} ({surah.id}. sure {surah.verse_count} ayet)
+                  <span className="surah-name">{surah.text}</span>
+                  <span className="verse-count text-sm text-gray-500">
+                    ({surah.verse_count} ayet)
                   </span>
                 </div>
               ))}
@@ -356,22 +359,20 @@ export default function Home() {
         </div>
 
         <div className="nav-container">
-          <button 
-            onClick={() => router.push('/juz')} 
-            className="nav-button"
-          >
-            Cüz
-          </button>
-          <button 
-            onClick={() => router.push('/surah')} 
+          <button
+            onClick={() => router.push('/surah')}
             className="nav-button"
           >
             Sure
           </button>
+          <button
+            onClick={() => router.push('/juz')}
+            className="nav-button"
+          >
+            Cüz
+          </button>
         </div>
       </div>
-
-      <div className="h-8"></div>
     </div>
   );
 }
