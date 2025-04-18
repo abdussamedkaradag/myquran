@@ -20,45 +20,54 @@ export default function Home() {
   const [verseSearchQuery, setVerseSearchQuery] = useState('');
   const [nextVerse, setNextVerse] = useState<boolean>(false);
   const [previousVerse, setPreviousVerse] = useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    const container = document.querySelector('.quran-app-container');
+    if (isDarkMode) {
+      container?.classList.add('dark');
+    } else {
+      container?.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   useEffect(() => {
     const input = document.getElementById("searchInput");
     const clearBtn = document.getElementById("clearBtn");
 
+    if (!input || !clearBtn) return;
+
     function toggleClearBtn() {
-      if (input && clearBtn) {
-        if ((input as HTMLInputElement).value.length > 0) {
-          clearBtn.classList.remove("hidden");
-        } else {
-          clearBtn.classList.add("hidden");
-        }
+      if (searchQuery.length > 0) {
+        clearBtn?.classList.remove("hidden");
+      } else {
+        clearBtn?.classList.add("hidden");
       }
     }
 
-    function clearInput() {
-      if (input) {
-        (input as HTMLInputElement).value = "";
-        (input as HTMLInputElement).focus();
-        setVerseSearchQuery("");
-        toggleClearBtn();
-      }
+    function clearInput(e: MouseEvent) {
+      e.preventDefault();
+      setSearchQuery("");
+      (input as HTMLInputElement).focus();
     }
 
-    if (input && clearBtn) {
-      input.addEventListener("input", (e) => {
-        setVerseSearchQuery((e.target as HTMLInputElement).value);
-        toggleClearBtn();
-      });
-      clearBtn.addEventListener("click", clearInput);
-    }
+    clearBtn.addEventListener("click", (e) => {
+      if (searchQuery.length > 0) {
+        handleSearch(e as unknown as React.MouseEvent<HTMLButtonElement>);
+      } else {
+        clearInput(e);
+      }
+    });
+    toggleClearBtn();
 
     return () => {
-      if (input && clearBtn) {
-        input.removeEventListener("input", toggleClearBtn);
-        clearBtn.removeEventListener("click", clearInput);
-      }
+      clearBtn.removeEventListener("click", clearInput);
     };
-  }, []);
+  }, [searchQuery]);
 
   const localData: SearchResult[] = [
     { id: 1, text: 'Fatiha Suresi', verse_count: 7 },
@@ -187,24 +196,25 @@ export default function Home() {
       return;
     }
 
-    // Sadece sure adı kısmını al (ayet numarasını hariç tut)
     const searchText = value.toLowerCase();
-    
     const filtered = localData.filter(item => 
       item.text.toLowerCase().includes(searchText)
-    ).slice(0, 5); // En fazla 5 öneri göster
+    ).slice(0, 5);
     
     setSuggestions(filtered);
     setShowSuggestions(true);
   };
 
   const handleSuggestionClick = (surah: SearchResult) => {
-    setSearchQuery(surah.text.split(' ')[0]); // Sadece sure adını al
+    setSearchQuery(surah.text);
     setSuggestions([]);
     setShowSuggestions(false);
   };
 
-  const handleSearch = () => {
+  const handleSearch = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    if (e) {
+      e.preventDefault();
+    }
     if (!searchQuery) return;
 
     const searchParts = searchQuery.trim().split(/\s+/);
@@ -324,20 +334,17 @@ export default function Home() {
             value={searchQuery}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            className="w-full px-4 py-3 border-2 border-brown-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-transparent"
+            className="custom-search-input"
             placeholder=" "
           />
-          <label className="floating-label">Arama yapınız. (Örn: Mülk 2)</label>
+          <label className="custom-search-label">Arama yapınız. (Örn: Mülk 2)</label>
           <button
             id="clearBtn"
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden"
+            className="custom-search-button"
+            onClick={handleSearch}
           >
-            <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                clipRule="evenodd"
-              />
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
           {showSuggestions && suggestions.length > 0 && (
@@ -371,8 +378,62 @@ export default function Home() {
           >
             Cüz
           </button>
+          <button
+            onClick={() => router.push('/page')}
+            className="nav-button"
+          >
+            Sayfa
+          </button>
         </div>
+
+        <button className="theme-toggle-button" onClick={toggleTheme}>
+          {isDarkMode ? (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          )}
+        </button>
       </div>
+      <footer className="quran-footer">
+        <div className="footer-content">
+          <div className="footer-left">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer-social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="footer-social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+              </svg>
+            </a>
+            <a href="mailto:info@example.com" className="footer-social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </a>
+            <a href="https://patreon.com" target="_blank" rel="noopener noreferrer" className="footer-social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4.5 3.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path>
+                <path d="M9.5 3.5h4v18h-4z"></path>
+                <path d="M9.5 3.5a2 2 0 1 1 4 0v18a2 2 0 1 1-4 0V3.5z"></path>
+              </svg>
+            </a>
+          </div>
+          <div className="footer-right">
+            <a href="/about" className="footer-logo-link">
+              <img src="/logo.png" alt="BEYYİNAT" className="footer-logo" />
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
