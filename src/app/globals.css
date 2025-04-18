@@ -117,9 +117,9 @@ input:not(:placeholder-shown) ~ .floating-label {
 }
 
 .nav-button {
-  min-width: 200px !important;
-  padding: 24px 48px !important;
-  font-size: 24px !important;
+  min-width: 160px !important;
+  padding: 16px 32px !important;
+  font-size: 20px !important;
   font-weight: 500 !important;
   background-color: rgb(231, 229, 228) !important;
   color: rgb(68, 64, 60) !important;
@@ -135,7 +135,6 @@ input:not(:placeholder-shown) ~ .floating-label {
 
 .nav-container {
   display: flex !important;
-  gap: 64px !important;
   justify-content: center !important;
   align-items: center !important;
   position: relative !important;
@@ -176,7 +175,7 @@ input:not(:placeholder-shown) ~ .floating-label {
   position: relative;
 }
 
-.custom-search-container input {
+.custom-search-input {
   width: 100%;
   padding: 1rem;
   border: 2px solid #8B4513;
@@ -185,30 +184,14 @@ input:not(:placeholder-shown) ~ .floating-label {
   outline: none;
   transition: all 0.3s ease;
   padding-right: 3rem;
+  direction: ltr;
+  text-align: left;
+  font-family: system-ui, sans-serif;
 }
 
-.custom-search-container input:focus {
+.custom-search-input:focus {
   border-color: #A0522D;
   box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
-}
-
-.custom-search-container label {
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: white;
-  padding: 0 0.5rem;
-  color: #8B4513;
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-.custom-search-container input:focus + label,
-.custom-search-container input:not(:placeholder-shown) + label {
-  top: 0;
-  transform: translateY(-50%) scale(0.8);
-  color: #A0522D;
 }
 
 .custom-search-button {
@@ -216,18 +199,37 @@ input:not(:placeholder-shown) ~ .floating-label {
   right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
-  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: rgb(68, 64, 60);
+  background: transparent;
   border: none;
-  color: #8B4513;
   cursor: pointer;
-  padding: 0.5rem;
-  display: none;
-  transition: all 0.3s ease;
-  z-index: 10;
+  transition: all 0.2s;
 }
 
-.custom-search-button:hover {
-  color: #A0522D;
+.custom-search-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .custom-search-button {
+    display: flex;
+  }
+  
+  .custom-search-button svg {
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .custom-search-button svg path {
+    d: path("M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z");
+  }
 }
 
 /* Mobil için responsive tasarım */
@@ -244,7 +246,6 @@ input:not(:placeholder-shown) ~ .floating-label {
   }
 
   .custom-search-button {
-    display: block;
     opacity: 0;
     transform: translateY(-50%) translateX(20px);
   }
@@ -270,17 +271,31 @@ input:not(:placeholder-shown) ~ .floating-label {
   border: 2px solid #8B4513 !important;
   border-radius: 0.5rem !important;
   padding: 1rem !important;
-  font-size: 1rem !important;
+  font-size: 0.875rem !important;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
   display: flex !important;
   align-items: center !important;
-  gap: 0.5rem !important;
+  gap: 0.75rem !important;
+  max-width: 400px !important;
+  margin: 0 auto !important;
+  line-height: 1.5 !important;
 }
 
 .toast-error svg {
   color: #8B4513 !important;
-  width: 1.5rem !important;
-  height: 1.5rem !important;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  flex-shrink: 0 !important;
+}
+
+.dark .toast-error {
+  background-color: rgb(55, 65, 81) !important;
+  color: rgb(229, 231, 235) !important;
+  border-color: rgb(75, 85, 99) !important;
+}
+
+.dark .toast-error svg {
+  color: rgb(229, 231, 235) !important;
 }
 
 .custom-button {
@@ -988,8 +1003,17 @@ select.custom-scroll-select:focus {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 100vh;
-  padding: 4rem 1rem;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.quran-app-container.dark {
+  background-image: url('/mountain.jpg');
 }
 
 .quran-content-container {
@@ -1002,16 +1026,243 @@ select.custom-scroll-select:focus {
   margin: 0 auto;
   padding: 3rem 2rem;
   border-radius: 2rem;
+  transition: all 0.3s ease;
+}
+
+.dark .quran-content-container {
+  background-color: rgba(31, 41, 55, 0.75);
+  border-color: rgba(75, 85, 99, 0.3);
+}
+
+.dark .text-brown-800 {
+  color: rgb(229, 231, 235);
+}
+
+.theme-toggle-button {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: rgb(231, 229, 228);
+  color: rgb(68, 64, 60);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  z-index: 50;
+}
+
+.dark .theme-toggle-button {
+  background-color: rgb(31, 41, 55);
+  color: rgb(229, 231, 235);
+}
+
+.theme-toggle-button:hover {
+  background-color: rgb(214, 211, 209);
+  transform: scale(1.05);
+}
+
+.dark .theme-toggle-button:hover {
+  background-color: rgb(55, 65, 81);
+}
+
+@media (max-width: 640px) {
+  .theme-toggle-button {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+.theme-toggle-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 @media (max-width: 640px) {
   .quran-app-container {
-    padding: 2rem 1rem;
+    padding: 0;
   }
   
   .quran-content-container {
     max-width: 100%;
-    padding: 2rem 1rem;
+    padding: 2rem 0.75rem;
+    margin: 0 0.5rem;
   }
 }
+
+.custom-search-label {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  color: rgb(120, 113, 108);
+  pointer-events: none;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.custom-search-input:focus + .custom-search-label,
+.custom-search-input:not(:placeholder-shown) + .custom-search-label {
+  top: 0;
+  left: 0.75rem;
+  transform: translateY(-50%) scale(0.75);
+  background-color: rgb(250, 250, 249);
+  padding: 0 0.25rem;
+  color: rgb(68, 64, 60);
+}
+
+.dark .nav-button {
+  background-color: rgb(75, 85, 99) !important;
+  color: rgb(229, 231, 235) !important;
+}
+
+.dark .nav-button:hover {
+  background-color: rgb(107, 114, 128) !important;
+}
+
+.dark .custom-search-input {
+  background-color: rgb(75, 85, 99);
+  border-color: rgb(107, 114, 128);
+  color: rgb(229, 231, 235);
+}
+
+.dark .custom-search-input:focus {
+  border-color: rgb(156, 163, 175);
+  box-shadow: 0 0 0 2px rgba(156, 163, 175, 0.2);
+}
+
+.quran-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 253, 250, 0.5);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.dark .quran-footer {
+  background-color: rgba(31, 41, 55, 0.5);
+  border-top-color: rgba(75, 85, 99, 0.2);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+}
+
+.footer-brand {
+  font-weight: 600;
+  font-size: 1rem;
+  color: rgb(68, 64, 60);
+}
+
+.dark .footer-brand {
+  color: rgb(229, 231, 235);
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.footer-right p {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.footer-link {
+  color: rgb(68, 64, 60);
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+}
+
+.dark .footer-link {
+  color: rgb(229, 231, 235);
+}
+
+.footer-link:hover {
+  color: rgb(41, 37, 36);
+}
+
+.dark .footer-link:hover {
+  color: rgb(255, 255, 255);
+}
+
+.footer-logo {
+  height: 2rem;
+  width: auto;
+  object-fit: contain;
+}
+
+.footer-logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer-logo-link:hover {
+  opacity: 0.8;
+}
+
+.footer-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgb(68, 64, 60);
+  transition: all 0.2s ease;
+  margin-right: 0.75rem;
+}
+
+.footer-social-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.dark .footer-social-link {
+  color: rgb(229, 231, 235);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .footer-social-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.footer-social-link svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
 
